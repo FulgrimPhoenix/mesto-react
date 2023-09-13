@@ -1,49 +1,56 @@
-function handleEditProfileClick(){
-  document.querySelector('.popup-profile').classList.add('popup_opened');
-}
+import api from "../utils/Api.js";
+import React, { useEffect } from "react";
+import Card from "./Card.js";
 
-function handleEditAvatarClick(){
-  document.querySelector('.popup-avatar').classList.add('popup_opened');
-}
+function Main(props) {
 
-function handleAddPlaceClick(){
-  document.querySelector('.popup-add-card').classList.add('popup_opened');
-}
+  const [userName, setUserName] = React.useState('Жак-Ив Кусто');
+  const [userDescription, setUserDescription] = React.useState('Исследователь океана');
+  const [userAvatar, setUserAvatar] = React.useState('https://sun1-98.userapi.com/impg/_l9QHTBgqyvRQMw0uGhWLcVveTeehay-rFjv7A/CDPVX9Z6V9A.jpg?size=774x942&quality=95&sign=561e182cf896e19f45dbe19222736b71&type=album')
+  const [cards, setCard] = React.useState([]);
 
-function Main() {
+  React.useEffect(()=>{
+    api.getMyUserInfo()
+      .then((res) => {
+        setUserName(res.name);
+        setUserDescription(res.about);
+        setUserAvatar(res.avatar);
+        })
+  },[])
+
+  React.useEffect(()=>{
+    api.getCardsInfo()
+    .then((res) => {
+      console.log(res);
+      setCard(res);
+    })
+  },[])
+
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__cage">
           <div className="profile__avatar-cage">
-            <img className="profile__avatar" src="<%=require('./images/profile/__avatar/__avatar.jpg')%>" alt="аватарка" onClick={handleEditAvatarClick} />
+            <img className="profile__avatar" src={`${userAvatar}`} alt="аватарка" onClick={props.onEditAvatar} />
           </div>
             <div className="profile__cell">
-              <h1 className="profile__name">Жак-Ив Кусто</h1>
-              <p className="profile__info">Исследователь океана</p>
+              <h1 className="profile__name">{userName}</h1>
+              <p className="profile__info">{userDescription}</p>
             </div>
-          <button type="button" className="profile__button-image" onClick={handleEditProfileClick} aria-label="кнопка редактирования профиля"></button>
+          <button type="button" className="profile__button-image" onClick={(props.onEditProfile) } aria-label="кнопка редактирования профиля"></button>
         </div>
-          <button type="button" className="profile__add-button-image" onClick={handleAddPlaceClick} aria-label="кнопка добавления фотографии"></button>
+          <button type="button" className="profile__add-button-image" onClick={props.onAddPlace} aria-label="кнопка добавления фотографии"></button>
       </section>
       <section className="photo-section">
         <ul className="photo-grid">
-           <template id="photo-grid__cell">
-            <li className="photo-grid__cell">
-              <button type="button" aria-label="кнопка удаления" className="photo-grid__delete-button"></button>
-              <img className="photo-grid__photo" src="#" alt="#" />
-               <div className="photo-grid__annotation">
-                 <h2 className="photo-grid__title"></h2>
-                <div className="photo-grid__like-container">
-                   <button type="button" aria-label="кнопка лайка" className="photo-grid__like-button-image"></button>
-                   <span className="photo-grid__like-counter">0</span>
-                 </div>
-               </div>
-            </li>
-          </template>
-         </ul>
-        </section>
-      </main>
+          {cards.map((el) => {
+            return(
+              <Card key={`${el._id}`} onCardClick={props.onCardClick} title={el.name} link={el.link} likes={el.likes}/>
+            )
+          })}
+        </ul>
+      </section>
+    </main>
   )
 }
 
