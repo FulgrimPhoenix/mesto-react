@@ -15,14 +15,19 @@ function Main(props) {
         setUserName(res.name);
         setUserDescription(res.about);
         setUserAvatar(res.avatar);
-        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   },[])
 
   React.useEffect(()=>{
     api.getCardsInfo()
     .then((res) => {
-      console.log(res);
       setCard(res);
+    })
+    .catch((err) => {
+      console.log(err);
     })
   },[])
 
