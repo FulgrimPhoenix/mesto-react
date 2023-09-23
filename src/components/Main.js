@@ -34,7 +34,7 @@ function Main(props) {
       <section className="profile">
         <div className="profile__cage">
           <div className="profile__avatar-cage">
-            <img className="profile__avatar" src={context.avatar} alt="аватарка" onClick={props.onEditAvatar} />
+            <img className="profile__avatar" src={`${context.avatar}`} alt="аватарка" onClick={props.onEditAvatar} />
           </div>
             <div className="profile__cell">
               <h1 className="profile__name">{context.name}</h1>
@@ -48,7 +48,7 @@ function Main(props) {
         <ul className="photo-grid">
           {cards.map((el) => {
             return(
-              <Card key={`${el._id}`} onCardClick={props.onCardClick} card={el} handleLike={props.handleLike} handleDelete={deleteCard} />
+              <Card key={`${el._id}`} onCardClick={props.onCardClick} card={el} handleLike={props.onCardLike} handleDelete={deleteCard} />
             )
           })}
         </ul>

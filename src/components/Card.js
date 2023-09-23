@@ -19,7 +19,7 @@ function Card(props){
 
   return(
       <li className="photo-grid__cell">
-        {!isOwn && <button type="button" aria-label="кнопка удаления" className="photo-grid__delete-button" onClick={() => props.handleDelete(props.card._id, props.card.owner._id)} />}
+        {isOwn && <button type="button" aria-label="кнопка удаления" className="photo-grid__delete-button" onClick={() => props.handleDelete(props.card._id, props.card.owner._id)} />}
         <img className="photo-grid__photo" onClick={props.onCardClick} src={`${props.card.link}`} alt={`${props.card.title}`} />
         <div className="photo-grid__annotation">
           <h2 className="photo-grid__title">{`${props.card.name}`}</h2>

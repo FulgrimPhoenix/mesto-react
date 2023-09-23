@@ -9,10 +9,15 @@ import Input from "./Input";
 function EditAvatarPopup(props){
   const ref = useRef();
 
-  React.useEffect(() => {console.log(ref.current)})
+  function handleSubmit(e) {
+    e.preventDefault();
+  
+    props.onUpdateAvatar(ref.current.value);
+    props.onClose()
+  }
   return(
     <PopupWithForm key={`editAvatar`} onClose={props.onClose} isOpen={props.isOpen} name='avatar'title='Обновить аватар' test={
-      <Form key={`editAvatarPopup`} name={`editAvatarPopup`} inputList={[
+      <Form key={`editAvatarPopup`} submit={handleSubmit} name={`editAvatarPopup`} inputList={[
         <Input reff={ref} key={'field-url-avatar'} id='field-url-avatar' placeholder='Ссылка на картинку'/>,
       ]}
       submitButtonText='Сохранить'/>}

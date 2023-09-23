@@ -74,11 +74,18 @@ function App() {
         setUserData(res)
       })
   }
+  //
+  function handleUpdateAvatar(link){
+    api.updateAvatar(link)
+    .then((res) => {
+      setUserData(res);
+    })
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header></Header> 
-        <Main onCardDelete={handleCardDelete} handleLike={handleLike} onCardClick={handleClick} onEditProfile={handleProfilePopupState} onAddPlace={handleAddCardPopupState} onEditAvatar={handleAvatarPopupState} />
+        <Main onCardDelete={handleCardDelete} onCardLike={handleLike} onCardClick={handleClick} onEditProfile={handleProfilePopupState} onAddPlace={handleAddCardPopupState} onEditAvatar={handleAvatarPopupState} />
         <Footer />
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <PopupWithForm key={`addCard`} onClose={closeAllPopups} isOpen={isAddPlacePopupOpen} name='add-card'title='Новое место' test={
@@ -88,7 +95,7 @@ function App() {
           ]} 
           submitButtonText='Создать'/>}
         />
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <PopupWithForm key={`deleteCard`} name='delete-card' title='Вы уверены?' test={
           <Form key={`deleteCardPopup`} name={`deleteCardPopup`} submitButtonText='Да'/>}
         />
