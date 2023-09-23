@@ -34,8 +34,8 @@ function App() {
     // Проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentContext._id);
     !isLiked ? 
-    api.likeThisCard(card._id).then(() => changeLikeStatus())
-    : api.unLikeThisCard(card._id).then(() => changeLikeStatus())
+    api.likeThisCard(card._id).then(() => changeLikeStatus()).catch((err) => console.log(err))
+    : api.unLikeThisCard(card._id).then(() => changeLikeStatus()).catch((err) => console.log(err))
   }
 
   function handleCardDelete(id){
@@ -73,6 +73,7 @@ function App() {
       .then((res) => {
         setUserData(res)
       })
+      .catch((err) => console.log(err))
   }
   //
   function handleUpdateAvatar(link){
@@ -80,6 +81,7 @@ function App() {
     .then((res) => {
       setUserData(res);
     })
+    .catch((err) => console.log(err))
   }
   return (
     <CurrentUserContext.Provider value={currentUser}>
