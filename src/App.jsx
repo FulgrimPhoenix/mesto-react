@@ -5,12 +5,12 @@ import Main from './components/Main.js';
 import Footer from './components/Footer.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import Form from './components/Form.js';
-import Input from './components/Input.js';
 import ImagePopup from './components/ImagePopup.js';
 import api from './utils/Api';
 import { CurrentUserContext } from './contexts/CurrentUserContext';
 import EditProfilePopup from './components/EditProfilePopup';
 import EditAvatarPopup from './components/EditAvatarPopup';
+import AddPlacePopup from './components/AddPlacePopup';
 
 function App() {
 
@@ -29,19 +29,6 @@ function App() {
         console.log(err);
       })
   },[]);
-
-  function handleLike(card, currentContext, {changeLikeStatus}) {
-    // Проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentContext._id);
-    !isLiked ? 
-    api.likeThisCard(card._id).then(() => changeLikeStatus()).catch((err) => console.log(err))
-    : api.unLikeThisCard(card._id).then(() => changeLikeStatus()).catch((err) => console.log(err))
-  }
-
-  function handleCardDelete(id){
-    api.deleteCard(id)
-      .catch(err => console.log(err))
-  }
 
   function handleClick(e) {
     setImagePopupState(!isImagePopupOpen);
@@ -75,7 +62,7 @@ function App() {
       })
       .catch((err) => console.log(err))
   }
-  //
+  //функционал обновления аватара
   function handleUpdateAvatar(link){
     api.updateAvatar(link)
     .then((res) => {
@@ -83,20 +70,48 @@ function App() {
     })
     .catch((err) => console.log(err))
   }
+  //функционал карточек
+
+  const [cards, setCard] = React.useState([]);
+
+  React.useEffect(()=>{
+    api.getCardsInfo()
+    .then((res) => {
+      setCard(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  },[])
+
+  function handleCardDelete(id){
+    api.deleteCard(id)
+      .then(() => {setCard(cards.filter((item) => {return (item._id !== id)}))})
+      .catch(err => console.log(err))
+  }
+  
+  function handleLike(card, currentContext, {changeLikeStatus}) {
+    // Проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some(i => i._id === currentContext._id);
+    !isLiked ? 
+    api.likeThisCard(card._id).then(() => changeLikeStatus()).catch((err) => console.log(err))
+    : api.unLikeThisCard(card._id).then(() => changeLikeStatus()).catch((err) => console.log(err))
+  }
+
+   //функция добавления карточки
+   function handleAddPlaceSubmit(name, link){
+    api.addNewCard(name, link)
+      .then((res) => setCard([res, ...cards]))
+      .catch(err => console.log(err))
+   }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header></Header> 
-        <Main onCardDelete={handleCardDelete} onCardLike={handleLike} onCardClick={handleClick} onEditProfile={handleProfilePopupState} onAddPlace={handleAddCardPopupState} onEditAvatar={handleAvatarPopupState} />
+        <Main onCardDelete={handleCardDelete} onCardLike={handleLike} card={cards} onCardClick={handleClick} onEditProfile={handleProfilePopupState} onAddPlace={handleAddCardPopupState} onEditAvatar={handleAvatarPopupState} />
         <Footer />
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-        <PopupWithForm key={`addCard`} onClose={closeAllPopups} isOpen={isAddPlacePopupOpen} name='add-card'title='Новое место' test={
-          <Form key={`addCardPopup`} name={`addCardPopup`} inputList={[
-            <Input key={'field-title'} id='field-title' placeholder='Название'/>,
-            <Input key={'field-url'} id='field-url' placeholder='Ссылка на картинку'/>
-          ]} 
-          submitButtonText='Создать'/>}
-        />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <PopupWithForm key={`deleteCard`} name='delete-card' title='Вы уверены?' test={
           <Form key={`deleteCardPopup`} name={`deleteCardPopup`} submitButtonText='Да'/>}

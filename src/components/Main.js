@@ -1,4 +1,3 @@
-import api from "../utils/Api.js";
 import React, { useEffect } from "react";
 import Card from "./Card.js";
 import { useContext } from "react";
@@ -6,28 +5,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function Main(props) {
 
-  const [cards, setCard] = React.useState([]);
   const context = useContext(CurrentUserContext);
-
-
-  React.useEffect(()=>{
-    api.getCardsInfo()
-    .then((res) => {
-      setCard(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  },[])
-
-  
-  function deleteCard(id, owner){
-    props.onCardDelete(id);
-
-    owner === context._id ?
-    setCard(cards.filter((item) => {return (item._id !== id)}))
-    : console.log('карточка не моя');
-  }
 
   return (
     <main className="content">
@@ -46,9 +24,9 @@ function Main(props) {
       </section>
       <section className="photo-section">
         <ul className="photo-grid">
-          {cards.map((el) => {
+          {props.card.map((el) => {
             return(
-              <Card key={`${el._id}`} onCardClick={props.onCardClick} card={el} handleLike={props.onCardLike} handleDelete={deleteCard} />
+              <Card key={`${el._id}`} onCardClick={props.onCardClick} card={el} handleLike={props.onCardLike} handleDelete={props.onCardDelete} />
             )
           })}
         </ul>

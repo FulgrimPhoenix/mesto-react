@@ -1,7 +1,5 @@
 import React from "react";
 import { useRef } from "react";
-import { useContext } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 import Form from "./Form";
 import Input from "./Input";
@@ -11,7 +9,7 @@ function EditAvatarPopup(props){
 
   function handleSubmit(e) {
     e.preventDefault();
-  
+    e.target.reset();
     props.onUpdateAvatar(ref.current.value);
     props.onClose()
   }
