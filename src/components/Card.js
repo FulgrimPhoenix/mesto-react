@@ -1,37 +1,50 @@
-import React, { useContext } from "react"
-import { CurrentUserContext } from "../contexts/CurrentUserContext"
+import React, { useContext } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card(props){
-
+function Card({onCardClick, card, handleLike, handleDelete}) {
   const context = useContext(CurrentUserContext);
-  const isOwn = props.card.owner._id === context._id;;
-  const [isLiked, setLikeState] = React.useState(props.card.likes.some(i => i._id === context._id));
-  const [likeCounter, setLikeNumber] = React.useState(props.card.likes.length);
+  const isOwn = card.owner._id === context._id;
 
-  function handleLikeStatus(){
-    isLiked?
-      setLikeNumber(likeCounter - 1)
-      : setLikeNumber(likeCounter + 1);
-
-    setLikeState(!isLiked);
-  }
-
-  return(
-      <li className="photo-grid__cell">
-        {isOwn && <button type="button" aria-label="кнопка удаления" className="photo-grid__delete-button" onClick={() => props.handleDelete(props.card._id, props.card.owner._id)} />}
-        <img className="photo-grid__photo" onClick={props.onCardClick} src={`${props.card.link}`} alt={`${props.card.name}`} />
-        <div className="photo-grid__annotation">
-          <h2 className="photo-grid__title">{`${props.card.name}`}</h2>
-          <div className="photo-grid__like-container">
-            <button type="button" aria-label="кнопка лайка" onClick={() => props.handleLike(props.card, context, {
-              changeLikeStatus: () => {handleLikeStatus()}
-              }
-            )} className={`photo-grid__like-button-image ${isLiked ? 'photo-grid__like-button-image_active' : ''}`} />
-            <span className="photo-grid__like-counter">{likeCounter}</span>
-          </div>
+  return (
+    <div className="photo-grid__cell">
+      {isOwn && (
+        <button
+          type="button"
+          aria-label="кнопка удаления"
+          className="photo-grid__delete-button"
+          onClick={() =>
+            handleDelete(card._id)
+          }
+        />
+      )}
+      <img
+        className="photo-grid__photo"
+        onClick={() =>
+          onCardClick({ name: card.name, link: card.link })
+        }
+        src={card.link}
+        alt={card.name}
+      />
+      <div className="photo-grid__annotation">
+        <h2 className="photo-grid__title">{card.name}</h2>
+        <div className="photo-grid__like-container">
+          <button
+            type="button"
+            aria-label="кнопка лайка"
+            onClick={() => handleLike(card)}
+            className={`photo-grid__like-button-image ${
+              card.likes.some((i) => i._id === context._id)
+                ? "photo-grid__like-button-image_active"
+                : ""
+            }`}
+          />
+          <span className="photo-grid__like-counter">
+            {card.likes.length}
+          </span>
         </div>
-      </li>
-  )
+      </div>
+    </div>
+  );
 }
 
-export default Card
+export default Card;

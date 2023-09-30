@@ -4,23 +4,52 @@ import PopupWithForm from "./PopupWithForm";
 import Form from "./Form";
 import Input from "./Input";
 
-function EditAvatarPopup(props){
+
+
+function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
+
+  const [url, setUrl] = React.useState('');
   const ref = useRef();
+
+  function handleUrlChange(e){
+    setUrl(e.target.value);
+  }
+
+  React.useEffect(() => {
+    setUrl('');
+  }, [isOpen])
 
   function handleSubmit(e) {
     e.preventDefault();
-    e.target.reset();
-    props.onUpdateAvatar(ref.current.value);
-    props.onClose()
+    onUpdateAvatar(ref.current.value);
   }
-  return(
-    <PopupWithForm key={`editAvatar`} onClose={props.onClose} isOpen={props.isOpen} name='avatar'title='Обновить аватар' test={
-      <Form key={`editAvatarPopup`} submit={handleSubmit} name={`editAvatarPopup`} inputList={[
-        <Input reff={ref} key={'field-url-avatar'} id='field-url-avatar' placeholder='Ссылка на картинку'/>,
-      ]}
-      submitButtonText='Сохранить'/>}
+  
+  return (
+    <PopupWithForm
+      onClose={onClose}
+      isOpen={isOpen}
+      name="avatar"
+      title="Обновить аватар"
+      children={
+        <Form
+          key={`editAvatarPopup`}
+          submit={handleSubmit}
+          name={`editAvatarPopup`}
+          children={[
+            <Input
+              reff={ref}
+              key={"field-url-avatar"}
+              value={url}
+              getValue={handleUrlChange}
+              id="field-url-avatar"
+              placeholder="Ссылка на картинку"
+            />,
+          ]}
+          submitButtonText="Сохранить"
+        />
+      }
     />
-  )
+  );
 }
 
-export default EditAvatarPopup
+export default EditAvatarPopup;
