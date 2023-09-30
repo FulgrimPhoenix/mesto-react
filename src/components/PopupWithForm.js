@@ -1,4 +1,14 @@
-function PopupWithForm({ onClose, isOpen, name, title, children }) {
+import Form from "./Form";
+
+function PopupWithForm({
+  onClose,
+  isOpen,
+  name,
+  title,
+  submit,
+  submitButtonText,
+  children,
+}) {
   return (
     <div
       className={`popup popup-${name} ${isOpen ? "popup_opened" : ""}`}
@@ -11,7 +21,13 @@ function PopupWithForm({ onClose, isOpen, name, title, children }) {
           onClick={onClose}
         ></button>
         <h2 className="popup__title">{title}</h2>
-        {children}
+        <Form
+          key={`editAvatarPopup`}
+          submit={submit}
+          name={`editAvatarPopup`}
+          children={children}
+          submitButtonText={submitButtonText}
+        />
       </div>
     </div>
   );

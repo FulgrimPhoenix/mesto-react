@@ -4,7 +4,7 @@ import PopupWithForm from "./PopupWithForm";
 import Form from "./Form";
 import Input from "./Input";
 
-function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const context = React.useContext(CurrentUserContext);
 
   const [name, setName] = React.useState(context.name);
@@ -34,30 +34,24 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       isOpen={isOpen}
       name="profile"
       title="Редактировать профиль"
-      children={
-        <Form
-          key={`editProfilePopup`}
-          submit={handleSubmit}
-          name={`editProfilePopup`}
-          children={[
-            <Input
-              key={"field-name"}
-              value={name}
-              getValue={handleNameChange}
-              id="field-name"
-              placeholder="Введите имя"
-            />,
-            <Input
-              key={"field-speciality"}
-              value={description}
-              getValue={handleDescriptionChange}
-              id="field-speciality"
-              placeholder="Введите специальность"
-            />,
-          ]}
-          submitButtonText="Сохранить"
-        />
-      }
+      submit={handleSubmit}
+      submitButtonText={'Сохранить'}
+      children={[
+        <Input
+          key={"field-name"}
+          value={name}
+          getValue={handleNameChange}
+          id="field-name"
+          placeholder="Введите имя"
+        />,
+        <Input
+          key={"field-speciality"}
+          value={description}
+          getValue={handleDescriptionChange}
+          id="field-speciality"
+          placeholder="Введите специальность"
+        />,
+      ]}
     />
   );
 }

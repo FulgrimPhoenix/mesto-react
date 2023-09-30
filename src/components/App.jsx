@@ -95,7 +95,7 @@ function App() {
 
     api.deleteCard(id).catch((err) => console.log(err));
   }
-
+  //лайк карточки
   function handleLike(card) {
     // Проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);

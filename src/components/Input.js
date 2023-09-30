@@ -1,8 +1,10 @@
-function Input(props) {
+import React from "react";
+
+const Input = React.forwardRef(function Inputt(props, ref) {
   return (
     <>
       <input
-        ref={props.reff}
+        ref={ref}
         type="text"
         id={props.id}
         value={props.value || ""}
@@ -15,6 +17,6 @@ function Input(props) {
       <span className={`form__input-error ${props.id}-error`}></span>
     </>
   );
-}
+})
 
 export default Input;
