@@ -35,24 +35,23 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       name="profile"
       title="Редактировать профиль"
       submit={handleSubmit}
-      submitButtonText={'Сохранить'}
-      children={[
-        <Input
-          key={"field-name"}
-          value={name}
-          getValue={handleNameChange}
-          id="field-name"
-          placeholder="Введите имя"
-        />,
-        <Input
-          key={"field-speciality"}
-          value={description}
-          getValue={handleDescriptionChange}
-          id="field-speciality"
-          placeholder="Введите специальность"
-        />,
-      ]}
-    />
+      submitButtonText={"Сохранить"}
+    >
+      <Input
+        key={"field-name"}
+        value={name}
+        getValue={handleNameChange}
+        id="field-name"
+        placeholder="Введите имя"
+      />
+      <Input
+        key={"field-speciality"}
+        value={description}
+        getValue={handleDescriptionChange}
+        id="field-speciality"
+        placeholder="Введите специальность"
+      />
+    </PopupWithForm>
   );
 }
 

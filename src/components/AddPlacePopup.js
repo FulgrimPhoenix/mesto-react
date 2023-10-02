@@ -31,24 +31,23 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       name="add-card"
       title="Новое место"
       submit={handleSubmit}
-      submitButtonText={'Сохранить'}
-      children={[
-        <Input
-          key={"field-title"}
-          id="field-title"
-          value={name}
-          getValue={handleNameChange}
-          placeholder="Название"
-        />,
-        <Input
-          key={"field-url"}
-          id="field-url"
-          value={link}
-          getValue={handleLinkChange}
-          placeholder="Ссылка на картинку"
-        />,
-      ]}
-    />
+      submitButtonText={"Сохранить"}
+    >
+      <Input
+        key={"field-title"}
+        id="field-title"
+        value={name}
+        getValue={handleNameChange}
+        placeholder="Название"
+      />
+      <Input
+        key={"field-url"}
+        id="field-url"
+        value={link}
+        getValue={handleLinkChange}
+        placeholder="Ссылка на картинку"
+      />
+    </PopupWithForm>
   );
 }
 

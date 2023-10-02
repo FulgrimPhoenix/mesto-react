@@ -28,18 +28,17 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       name="avatar"
       title="Обновить аватар"
       submit={handleSubmit}
-      submitButtonText={'Сохранить'}
-      children={[
-        <Input
-          key={"field-url-avatar"}
-          ref={ref}
-          value={url}
-          getValue={handleUrlChange}
-          id="field-url-avatar"
-          placeholder="Ссылка на картинку"
-        />,
-      ]}
-    />
+      submitButtonText={"Сохранить"}
+    >
+      <Input
+        key={"field-url-avatar"}
+        ref={ref}
+        value={url}
+        getValue={handleUrlChange}
+        id="field-url-avatar"
+        placeholder="Ссылка на картинку"
+      />
+    </PopupWithForm>
   );
 }
 

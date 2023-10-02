@@ -23,22 +23,12 @@ function App() {
   const [currentUser, setUserData] = React.useState({});
   //загрузка исходной информации
   React.useEffect(() => {
-    Promise.all([
-      api
-        .getMyUserInfo()
-        .then((res) => setUserData(res))
-        .catch((err) => {
-          console.log(err);
-        }),
-      api
-        .getCardsInfo()
-        .then((res) => {
-          setCards(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        }),
-    ]).catch((err) => console.log(err));
+    Promise.all([api.getMyUserInfo(), api.getCardsInfo()])
+      .then(([userInfo, cardList]) => {
+        setUserData(userInfo);
+        setCards(cardList);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   function handleOpenImagePopup({ name, link }) {
@@ -70,8 +60,8 @@ function App() {
       .editProfileInfo(name, about)
       .then((res) => {
         setUserData(res);
+        closeAllPopups();
       })
-      .then(() => closeAllPopups())
       .catch((err) => console.log(err));
   }
   //функционал обновления аватара
@@ -80,8 +70,8 @@ function App() {
       .updateAvatar(link)
       .then((res) => {
         setUserData(res);
+        closeAllPopups();
       })
-      .then(() => closeAllPopups())
       .catch((err) => console.log(err));
   }
   //функционал карточек
@@ -92,8 +82,10 @@ function App() {
         return item._id !== id;
       })
     );
-
-    api.deleteCard(id).catch((err) => console.log(err));
+///////////////////////////////////////
+    api.deleteCard(id)
+      .then(() =>{})
+      .catch((err) => console.log(err));
   }
   //лайк карточки
   function handleLike(card) {
@@ -106,11 +98,13 @@ function App() {
             state.map((c) => (c._id === card._id ? newCard : c))
           );
         })
+        .catch(err => console.log(err))
       : api.unLikeThisCard(card._id).then((newCard) => {
           setCards((state) =>
             state.map((c) => (c._id === card._id ? newCard : c))
           );
-        });
+        })
+        .catch(err => console.log())
   }
 
   //функция добавления карточки
