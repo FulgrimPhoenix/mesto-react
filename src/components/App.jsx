@@ -77,14 +77,11 @@ function App() {
   //функционал карточек
   //удаление карточки
   function handleCardDelete(id) {
-    setCards(
-      cards.filter((item) => {
-        return item._id !== id;
-      })
-    );
 ///////////////////////////////////////
     api.deleteCard(id)
-      .then(() =>{})
+      .then(() =>{
+        setCards(cards => cards.filter((item) => {return item._id !== id})) 
+      })
       .catch((err) => console.log(err));
   }
   //лайк карточки
@@ -104,7 +101,7 @@ function App() {
             state.map((c) => (c._id === card._id ? newCard : c))
           );
         })
-        .catch(err => console.log())
+        .catch(err => console.log(err))
   }
 
   //функция добавления карточки

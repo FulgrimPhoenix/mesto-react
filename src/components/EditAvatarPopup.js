@@ -1,19 +1,13 @@
 import React, { createRef } from "react";
 import { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
-import Form from "./Form";
 import Input from "./Input";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const [url, setUrl] = React.useState("");
   const ref = createRef();
 
-  function handleUrlChange(e) {
-    setUrl(e.target.value);
-  }
-
   React.useEffect(() => {
-    setUrl("");
+    ref.current.value = '';
   }, [isOpen]);
 
   function handleSubmit(e) {
@@ -33,10 +27,9 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       <Input
         key={"field-url-avatar"}
         ref={ref}
-        value={url}
-        getValue={handleUrlChange}
         id="field-url-avatar"
         placeholder="Ссылка на картинку"
+        isRef={true}
       />
     </PopupWithForm>
   );

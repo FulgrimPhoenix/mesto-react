@@ -40,16 +40,20 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       <Input
         key={"field-name"}
         value={name}
+        defValue={''}
         getValue={handleNameChange}
         id="field-name"
         placeholder="Введите имя"
+        isRef={false}
       />
       <Input
         key={"field-speciality"}
         value={description}
+        defValue={''}
         getValue={handleDescriptionChange}
         id="field-speciality"
         placeholder="Введите специальность"
+        isRef={false}
       />
     </PopupWithForm>
   );

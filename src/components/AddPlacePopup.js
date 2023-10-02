@@ -7,8 +7,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const [link, setLink] = React.useState("");
 
   React.useEffect(() => {
-    setName("");
-    setLink("");
+    setName('')
+    setLink('')
   }, [isOpen]);
 
   function handleNameChange(e) {
@@ -22,6 +22,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   function handleSubmit(e) {
     e.preventDefault();
     onAddPlace(name, link);
+    setName("");
+    setLink("");
   }
 
   return (
@@ -31,7 +33,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       name="add-card"
       title="Новое место"
       submit={handleSubmit}
-      submitButtonText={"Сохранить"}
+      submitButtonText={"Создать"}
     >
       <Input
         key={"field-title"}
@@ -39,6 +41,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         value={name}
         getValue={handleNameChange}
         placeholder="Название"
+        isRef={false}
       />
       <Input
         key={"field-url"}
@@ -46,6 +49,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         value={link}
         getValue={handleLinkChange}
         placeholder="Ссылка на картинку"
+        isRef={false}
       />
     </PopupWithForm>
   );
