@@ -1,13 +1,13 @@
 import React, { createRef } from "react";
 import { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
-import Input from "./Input";
+
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const ref = createRef();
+  const ref = useRef();
 
   React.useEffect(() => {
-    ref.current.value = '';
+    ref.current.value = "";
   }, [isOpen]);
 
   function handleSubmit(e) {
@@ -24,13 +24,16 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       submit={handleSubmit}
       submitButtonText={"Сохранить"}
     >
-      <Input
-        key={"field-url-avatar"}
+      <input
+        type="text"
         ref={ref}
         id="field-url-avatar"
+        className={`form__input form__input_field-url-avatar popup__input`}
         placeholder="Ссылка на картинку"
-        isRef={true}
+        required
+        minLength="2"
       />
+      <span className={`form__input-error field-url-avatar-error`}></span>
     </PopupWithForm>
   );
 }

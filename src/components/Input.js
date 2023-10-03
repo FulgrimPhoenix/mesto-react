@@ -1,24 +1,9 @@
 import React from "react";
 
-const Input = React.forwardRef(function Inputt(
-  { id, value, getValue, placeholder, isRef },
-  ref
+function Input(
+  { id, value, getValue, placeholder}
 ) {
-
-  return isRef ? (
-    <>
-      <input
-        ref={ref}
-        type="text"
-        id={id}
-        className={`form__input form__input_${id} popup__input`}
-        placeholder={placeholder}
-        required
-        minLength="2"
-      />
-      <span className={`form__input-error ${id}-error`}></span>
-    </>
-  ) : (
+  return (
     <>
       <input
         type="text"
@@ -33,6 +18,6 @@ const Input = React.forwardRef(function Inputt(
       <span className={`form__input-error ${id}-error`}></span>
     </>
   );
-});
+};
 
 export default Input;
