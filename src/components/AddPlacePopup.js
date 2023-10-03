@@ -41,7 +41,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         value={name}
         getValue={handleNameChange}
         placeholder="Название"
-        isRef={false}
       />
       <Input
         key={"field-url"}
@@ -49,7 +48,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         value={link}
         getValue={handleLinkChange}
         placeholder="Ссылка на картинку"
-        isRef={false}
       />
     </PopupWithForm>
   );
